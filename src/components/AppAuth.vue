@@ -1,10 +1,10 @@
 <template>
   <!-- Auth Modal -->
-  <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="modal">
+  <div class="fixed z-10 inset-0 overflow-y-auto" id="modal" :class="hiddenClass">
     <div
       class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
     >
-      <div class="fixed inset-0 transition-opacity">
+      <div class="fixed inset-0 transition-opacity" @click="isOpen = false">
         <div class="absolute inset-0 bg-gray-800 opacity-75"></div>
       </div>
 
@@ -20,7 +20,7 @@
           <div class="flex justify-between items-center pb-4">
             <p class="text-2xl font-bold">Your Account</p>
             <!-- Modal Close Button -->
-            <div class="modal-close cursor-pointer z-50">
+            <div class="modal-close cursor-pointer z-50" @click="isOpen = false">
               <i class="fas fa-times"></i>
             </div>
           </div>
@@ -45,6 +45,7 @@
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
               <input
+                name="email"
                 type="email"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Enter Email"
@@ -54,6 +55,7 @@
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
               <input
+                name="password"
                 type="password"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Password"
@@ -72,6 +74,7 @@
             <div class="mb-3">
               <label class="inline-block mb-2">Name</label>
               <input
+                name="firstName"
                 type="text"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Enter Name"
@@ -81,6 +84,7 @@
             <div class="mb-3">
               <label class="inline-block mb-2">Email</label>
               <input
+                name="email"
                 type="email"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Enter Email"
@@ -90,6 +94,7 @@
             <div class="mb-3">
               <label class="inline-block mb-2">Age</label>
               <input
+                name="age"
                 type="number"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
               />
@@ -98,6 +103,7 @@
             <div class="mb-3">
               <label class="inline-block mb-2">Password</label>
               <input
+                name="password"
                 type="password"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Password"
@@ -107,6 +113,7 @@
             <div class="mb-3">
               <label class="inline-block mb-2">Confirm Password</label>
               <input
+                name="confirmPassword"
                 type="password"
                 class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
                 placeholder="Confirm Password"
@@ -125,7 +132,7 @@
             </div>
             <!-- TOS -->
             <div class="mb-3 pl-6">
-              <input type="checkbox" class="w-4 h-4 float-left -ml-6 mt-1 rounded" />
+              <input name="terms" type="checkbox" class="w-4 h-4 float-left -ml-6 mt-1 rounded" />
               <label class="inline-block">Accept terms of service</label>
             </div>
             <button
@@ -142,8 +149,14 @@
 </template>
 
 <script>
+import { mapState, mapWritableState } from 'pinia'
+import useModalStore from '@/stores/modal'
 export default {
   name: 'AppAuth',
+  computed: {
+    ...mapState(useModalStore, ['hiddenClass']),
+    ...mapWritableState(useModalStore, ['isOpen']),
+  },
 }
 </script>
 
